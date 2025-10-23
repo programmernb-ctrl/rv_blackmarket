@@ -1,6 +1,3 @@
-math.randomseed(GetGameTimer())
-
-
 lib.registerContext({
     id = 'blackmarket_main',
     title = locale('misc.title'),
