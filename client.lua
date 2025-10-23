@@ -17,11 +17,10 @@ lib.registerContext({
             title = locale('misc.sale'),
             description = locale('misc.sell_illegal_goods'),
             arrow = true,
-            disabled = true
+            serverEvent = 'rv_blackmarket:server:openSellMenu',
         }
     }
 })
-
 
 local activeDealers = {}
 
@@ -135,6 +134,17 @@ RegisterNetEvent('rv_blackmarket:client:onMenuOpenedPurchase', function(options)
     lib.showContext('blackmarket_purchase')
 end)
 
+RegisterNetEvent('rv_blackmarket:client:onMenuOpenedSell', function (options)
+    lib.registerContext({
+        id = 'blackmarket_sell',
+        menu = 'blackmarket_main',
+        title = locale('misc.title'),
+        options = options
+    })
+
+    lib.showContext('blackmarket_sell')
+end)
+
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     deleteSpawnedPeds()
 end)
@@ -142,7 +152,7 @@ end)
 
 lib.callback.register('rv_blackmarket:client:isNearDealer', function ()
     for i = 1, #activeDealers do
-        if #GetEntityCoords(cache.ped) - #GetEntityCoords(activeDealers[i].ped) <= 5.0 then
+        if #GetEntityCoords(cache.ped) - #GetEntityCoords(activeDealers[i].ped) <= 2.0 then
             return true
         end
     end
