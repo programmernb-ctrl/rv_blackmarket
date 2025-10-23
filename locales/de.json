@@ -1,0 +1,14 @@
+{
+    "misc": {
+        "choose_action": "Was möchtest du tun?",
+        "title": "Schwarzmarkt",
+        "purchase": "Kaufen",
+        "sale": "Verkaufen",
+        "price": "Preis: $%d",
+        "purchase_illegal_goods": "kaufe illegale Gegenstände",
+        "sell_illegal_goods": "verkaufe illegale Gegenstände",
+        "not_allowed": "Dein Charakter kann das gerade nicht!",
+        "not_added_item": "Dein Charakter hat nichts erhalten!",
+        "insufficient_funds": "Dein Charakter hat nicht genügend Schwarzgeld!"
+    }
+}

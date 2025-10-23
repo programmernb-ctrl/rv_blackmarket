@@ -1,0 +1,14 @@
+{
+	"misc": {
+		"choose_action": "What do you want to do?",
+		"title": "Blackmarket",
+		"purchase": "Purchase",
+		"sale": "Sell",
+		"price": "Price: $%d",
+		"purchase_illegal_goods": "purchase illegal items",
+		"sell_illegal_goods": "sell illegal items",
+		"not_allowed": "You can not do that now!",
+		"not_added_item": "Not received Items!",
+		"insufficient_funds": "Not enough black money!"
+	}
+}
