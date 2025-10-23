@@ -1,3 +1,7 @@
+if not lib.checkDependency('rv_blackmarket', '1.0.0') then
+    lib.print.warn('You need atleast version 1.0.0. download it on github: https://github.com/programmernb-ctrl/rv_blackmarket')
+end
+
 local dealerItems = require 'config.server'.DealerItems
 local ox_inventory = exports['ox_inventory']
 
