@@ -5,6 +5,7 @@
         "purchase": "Kaufen",
         "sale": "Verkaufen",
         "amount": "Anzahl",
+        "action_label": "[E] - Öffne Schwarzmarkt",
         "price": "Preis: $%d",
         "purchase_illegal_goods": "kaufe illegale Gegenstände",
         "sell_illegal_goods": "verkaufe illegale Gegenstände",

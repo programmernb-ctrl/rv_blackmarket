@@ -29,7 +29,6 @@ local SetPedConfigFlag = SetPedConfigFlag
 local SetModelAsNoLongerNeeded = SetModelAsNoLongerNeeded
 
 local activeDealers = {}
-local actionLabel = "[E] - Schwarzmarkt öffnen"
 
 local function createDealers()
 
