@@ -62,7 +62,7 @@ local function addDealerZones()
 
         activeDealers[i].zone = lib.zones.box({
             coords = GetEntityCoords(activeDealers[i].ped),
-            onEnter = function (self)
+            onEnter = function ()
                 lib.showTextUI('[E] - Schwarzmarkt öffnen')
             end,
             inside = function (self)
@@ -74,7 +74,7 @@ local function addDealerZones()
 
                 end
             end,
-            onExit = function (self)
+            onExit = function ()
                 lib.hideTextUI()
             end
         })
