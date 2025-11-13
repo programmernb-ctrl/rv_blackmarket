@@ -5,7 +5,6 @@ end
 local config = require 'config.server'
 local buyItems = config.DealerItems.buyable
 local sellItems = config.DealerItems.sellable
-local ox_inventory = exports['ox_inventory']
 
 local function getBuyPrices()
     local items = lib.table.deepclone(buyItems)
@@ -21,6 +20,15 @@ local function isNearDealer(source)
     return lib.callback.await('rv_blackmarket:client:isNearDealer', source)
 end
 
+---@type table <number, number>
+SellCooldowns = {}
+
+AddEventHandler('playerDropped', function (_, _, _)
+    if not source then return end
+    if SellCooldowns[source] then
+        SellCooldowns[source] = nil
+    end
+end)
 
 RegisterNetEvent('rv_blackmarket:server:openPurchaseMenu', function()
     if not isNearDealer(source) then
@@ -35,7 +43,7 @@ RegisterNetEvent('rv_blackmarket:server:openPurchaseMenu', function()
     local itemPrices = getBuyPrices()
 
     for key, value in pairs(itemPrices) do
-        local itemName = ox_inventory:Items(key).label
+        local itemName = Items(key).label
         options[#options+1] = {
             title = itemName,
             description = locale('misc.price', value),
@@ -60,7 +68,7 @@ RegisterNetEvent('rv_blackmarket:server:openSellMenu', function ()
     local itemPrices = getSellPrices()
 
     for key, value in pairs(itemPrices) do
-        local itemName = ox_inventory:Items(key).label
+        local itemName = Items(key).label
         options[#options+1] = {
             title = itemName,
             description = locale('misc.price', value),
@@ -73,13 +81,15 @@ RegisterNetEvent('rv_blackmarket:server:openSellMenu', function ()
 end)
 
 RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
-    local item = data[1]
-    local price = buyItems[item]
-
-    if not item or not price then return end
     if not isNearDealer(source) then return end
 
-    local count = ox_inventory:GetItemCount(source, config.blackmoney)
+    local item = data[1]
+    local price = buyItems[item] -- returns the price
+
+    if not item or not price then return end
+    if price <= 0 then return end
+
+    local count = GetItemCount(source, config.blackmoney)
 
     if count <= price then
         TriggerClientEvent('ox_lib:notify', source, {
@@ -89,8 +99,8 @@ RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
         return
     end
 
-    if ox_inventory:RemoveItem(source, config.blackmoney, price) then
-        local success = ox_inventory:AddItem(source, item, 1)
+    if RemoveItem(source, config.blackmoney, price) then
+        local success = AddItem(source, item, 1)
         if not success then
             TriggerClientEvent('ox_lib:notify', source, {
                 type = 'error',
@@ -101,8 +111,63 @@ RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
 
 end)
 
+RegisterNetEvent('rv_blackmarket:server:sellItem', function (item)
+    local src = tonumber(source)
+
+    if not src then return end
+    if not item then return end
+    if not isNearDealer(src) then return end
+
+    local itemName = item[1]
+    local price = sellItems[itemName]
+
+    local amount, err = lib.callback.await('rv_blackmarket:client:choosedSellAmount', src)
+    local count = GetItemCount(src, itemName)
+
+    assert(amount > 0, err)
+
+    if count < amount then
+        TriggerClientEvent('ox_lib:notify', src, {
+            type = 'error',
+            locale('misc.not_enough_items')
+        })
+        return
+    end
+
+    if not SellCooldowns[src] then
+        SellCooldowns[src] = 0
+    end
+
+    local currentTime = GetGameTimer()
+    if currentTime - SellCooldowns[source] >= config.Cooldowns.sell then
+        SellCooldowns[src] = currentTime
+
+        if RemoveItem(src, itemName, amount) then
+            local money = amount * price
+            local reason = ('Blackmarket Sell for $%d (%dx %s)'):format(money, amount, itemName)
+            exports['qbx_core']:AddMoney(src, 'cash', money, reason)
+        end
+    else
+        TriggerClientEvent('ox_lib:notify', src, {
+            type = 'warn',
+            description = locale('misc.on_cooldown')
+        })
+
+        local cooldown = config.Cooldowns.sell and config.Cooldowns.sell or 3000
+
+        SetTimeout(cooldown, function()
+            SellCooldowns[src] = nil
+        end)
+    end
+end)
+
 
 lib.callback.register('rv_blackmarket:server:getItemPrices', function(source)
     local prices = getBuyPrices()
     return prices
+end)
+
+exports.qbx_core:CreateUseableItem('hacking_laptop', function (source, item)
+    TriggerClientEvent('rv_blackmarket:client:useHackingLaptop', source)
+    print("Item", json.encode(item))
 end)

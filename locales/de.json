@@ -4,11 +4,15 @@
         "title": "Schwarzmarkt",
         "purchase": "Kaufen",
         "sale": "Verkaufen",
+        "amount": "Anzahl",
         "price": "Preis: $%d",
         "purchase_illegal_goods": "kaufe illegale Gegenstände",
         "sell_illegal_goods": "verkaufe illegale Gegenstände",
         "not_allowed": "Dein Charakter kann das gerade nicht!",
         "not_added_item": "Dein Charakter hat nichts erhalten!",
-        "insufficient_funds": "Dein Charakter hat nicht genügend Schwarzgeld!"
+        "not_enough_items": "Dein Charakter fehlen Gegenstände",
+        "insufficient_funds": "Dein Charakter hat nicht genügend Schwarzgeld!",
+        "blackmarket_sell": "Schwarzmarkt Verkauf",
+        "on_cooldown": "Du musst etwas warten!"
     }
 }

@@ -6,6 +6,6 @@ Config.Dealer = {
     {
         model = `A_M_M_HasJew_01`,
         pos = vec4(-161.86, -1636.79, 36.25, 232.41),
-        scenario = 'WORLD_HUMAN_STAND_MOBILE', -- default: nil
-    }
+        scenario = 'WORLD_HUMAN_STAND_MOBILE', -- default: nil, if none ped will not start any scenario
+    },
 }

@@ -22,7 +22,14 @@ lib.registerContext({
     }
 })
 
+local CreatePed = CreatePed
+local DoesEntityExist = DoesEntityExist
+local GetEntityCoords = GetEntityCoords
+local SetPedConfigFlag = SetPedConfigFlag
+local SetModelAsNoLongerNeeded = SetModelAsNoLongerNeeded
+
 local activeDealers = {}
+local actionLabel = "[E] - Schwarzmarkt öffnen"
 
 local function createDealers()
 
@@ -57,9 +64,8 @@ local function createDealers()
     end
 end
 
-local function addDealerZones()
+local function createZones()
     for i = 1, #activeDealers do
-
         activeDealers[i].zone = lib.zones.box({
             coords = GetEntityCoords(activeDealers[i].ped),
             onEnter = function ()
@@ -67,18 +73,15 @@ local function addDealerZones()
             end,
             inside = function (self)
                 if self:contains(GetEntityCoords(cache.ped)) then
-
                     if IsControlJustPressed(0, 38) or IsControlJustReleased(0, 38) then
                         TriggerEvent('rv_blackmarket:openBlackMarket')
                     end
-
                 end
             end,
             onExit = function ()
                 lib.hideTextUI()
             end
         })
-
     end
 end
 
@@ -98,27 +101,36 @@ end
 
 local function initScript()
     createDealers()
-    addDealerZones()
+    createZones()()
 end
 
-
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        initScript()
+local function onPlayerLoad()
+    if GetResourceState("qbx_core") ~= "missing" then
+        AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+            initScript()
+        end)
+    elseif GetResourceState("es_extended") ~= "missing" then
+        AddEventHandler("esx:playerLoaded", function()
+            initScript()
+        end)
+    else
+        lib.print.warn("No supported core found.")
     end
+end
+onPlayerLoad()
+
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == GetCurrentResourceName() or resourceName == "ox_inventory" then initScript() end
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)
-    if resourceName == GetCurrentResourceName() or resourceName == "rv_blackmarket" then
-        deleteSpawnedPeds()
-    end
-end)
-
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function ()
-    initScript()
+    if resourceName == GetCurrentResourceName() or resourceName == "ox_inventory" then deleteSpawnedPeds() end
 end)
 
 AddEventHandler('rv_blackmarket:openBlackMarket', function ()
+    local jobType = (GetResourceState("qbx_core") ~= "missing" and exports['qbx_core']:GetPlayerData()?.job?.type) or (GetResourceState("es_extended") and ESX.GetPlayerData()?.job?.name)
+    if jobType == "leo" or jobType == "police" then return end
     lib.showContext('blackmarket_main')
 end)
 
@@ -143,10 +155,6 @@ RegisterNetEvent('rv_blackmarket:client:onMenuOpenedSell', function (options)
     })
 
     lib.showContext('blackmarket_sell')
-end)
-
-RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
-    deleteSpawnedPeds()
 end)
 
 
