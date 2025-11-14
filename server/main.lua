@@ -166,8 +166,3 @@ lib.callback.register('rv_blackmarket:server:getItemPrices', function(source)
     local prices = getBuyPrices()
     return prices
 end)
-
-exports.qbx_core:CreateUseableItem('hacking_laptop', function (source, item)
-    TriggerClientEvent('rv_blackmarket:client:useHackingLaptop', source)
-    print("Item", json.encode(item))
-end)
