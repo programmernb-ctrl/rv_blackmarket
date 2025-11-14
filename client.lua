@@ -100,7 +100,7 @@ end
 
 local function initScript()
     createDealers()
-    createZones()()
+    createZones()
 end
 
 local function onPlayerLoad()
