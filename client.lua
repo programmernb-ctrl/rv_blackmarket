@@ -68,7 +68,7 @@ local function createZones()
         activeDealers[i].zone = lib.zones.box({
             coords = GetEntityCoords(activeDealers[i].ped),
             onEnter = function ()
-                lib.showTextUI('[E] - Schwarzmarkt öffnen')
+                lib.showTextUI(locale('misc.action_label'))
             end,
             inside = function (self)
                 if self:contains(GetEntityCoords(cache.ped)) then
