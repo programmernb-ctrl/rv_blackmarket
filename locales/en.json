@@ -2,6 +2,7 @@
 	"misc": {
 		"choose_action": "What do you want to do?",
 		"title": "Blackmarket",
+		"title_quests": "Blackmarket / Quests",
 		"purchase": "Purchase",
 		"sale": "Sell",
 		"amount": "Amount",
@@ -14,6 +15,9 @@
 		"not_enough_items": "Not enough Items!",
 		"insufficient_funds": "Not enough black money!",
 		"blackmarket_sell": "Blackmarket Sell",
-		"on_cooldown": "Please wait before you do this!"
+		"on_cooldown": "Please wait before you do this!",
+		"already_on_quest": "You are already running a quest.",
+		"failed_receive_quest": "Failed to receive quest",
+		"go_to_street": "Drive to %s"
 	}
 }

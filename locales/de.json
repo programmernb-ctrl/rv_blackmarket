@@ -1,19 +1,23 @@
 {
-    "misc": {
-        "choose_action": "Was möchtest du tun?",
-        "title": "Schwarzmarkt",
-        "purchase": "Kaufen",
-        "sale": "Verkaufen",
-        "amount": "Anzahl",
-        "action_label": "[E] - Öffne Schwarzmarkt",
-        "price": "Preis: $%d",
-        "purchase_illegal_goods": "kaufe illegale Gegenstände",
-        "sell_illegal_goods": "verkaufe illegale Gegenstände",
-        "not_allowed": "Dein Charakter kann das gerade nicht!",
-        "not_added_item": "Dein Charakter hat nichts erhalten!",
-        "not_enough_items": "Dein Charakter fehlen Gegenstände",
-        "insufficient_funds": "Dein Charakter hat nicht genügend Schwarzgeld!",
-        "blackmarket_sell": "Schwarzmarkt Verkauf",
-        "on_cooldown": "Du musst etwas warten!"
-    }
+	"misc": {
+		"choose_action": "Was möchtest du tun?",
+		"title": "Schwarzmarkt",
+		"title_quests": "Schwarzmarkt / Quests",
+		"purchase": "Kaufen",
+		"sale": "Verkaufen",
+		"amount": "Anzahl",
+		"action_label": "[E] - Öffne Schwarzmarkt",
+		"price": "Preis: $%d",
+		"purchase_illegal_goods": "Kaufe illegale Gegenstände",
+		"sell_illegal_goods": "Verkaufe illegale Gegenstände",
+		"not_allowed": "Dein Charakter kann das gerade nicht!",
+		"not_added_item": "Dein Charakter hat nichts erhalten!",
+		"not_enough_items": "Dein Charakter fehlen Gegenstände",
+		"insufficient_funds": "Dein Charakter hat nicht genügend Schwarzgeld!",
+		"blackmarket_sell": "Schwarzmarkt Verkauf",
+		"on_cooldown": "Du musst etwas warten!",
+		"already_on_quest": "Du hast bereits eine aktive Quest.",
+		"failed_receive_quest": "Fehler beim Erhalten der Quest.",
+		"go_to_street": "Fahre zur %s"
+	}
 }

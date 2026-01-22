@@ -3,16 +3,20 @@ lua54 'yes'
 game 'gta5'
 name 'rv_blackmarket'
 author 'progammernb-ctrl aka thirst'
-version '1.0.2'
+version '1.0.3'
 repository 'https://github.com/programmernb-ctrl/rv_blackmarket'
 description 'blackmarket script to sell/buy illegal ingame items'
 
 shared_scripts {
     '@ox_lib/init.lua',
-    'config/shared.lua'
+    'types.lua',
+    'config/shared.lua',
 }
 
-client_script 'client.lua'
+client_scripts {
+    'client/client.lua',
+    --'client/questing.lua'
+}
 
 server_scripts {
     'server/inventory/*.lua',
@@ -20,12 +24,12 @@ server_scripts {
 }
 
 files {
-    'locales/*.json'
+    'locales/*.json',
 }
 
 dependencies {
     'ox_lib',
-    'ox_inventory'
+    'ox_inventory',
 }
 
 ox_lib 'locale'
