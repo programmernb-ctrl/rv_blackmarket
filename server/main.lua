@@ -166,7 +166,7 @@ RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
     if time - BuyCooldowns[source] >= serverConfig.Cooldowns.buy then
         BuyCooldowns[source] = GetGameTimer()
 
-        if RemoveItem(source, serverConfig.blackmoney, price) then
+        if RemoveItem(source, serverConfig.blackmoney, newPrice) then
             local success = AddItem(source, item, 1)
             if not success then
                 notifyPlayer(source, {
