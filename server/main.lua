@@ -136,22 +136,21 @@ RegisterNetEvent('rv_blackmarket:server:openSellMenu', function ()
 end)
 
 RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
-    if not isNearDealer(source) then
-        return
-    end
+    if not isNearDealer(source) then return end
 
     local item = data[1]
-    if not item then
-        return
-    end
+    if not item then return end
+
+    local amount = lib.callback.await('rv_blackmarket:client:choosedAmount', source, locale('misc.purchase'))
+    if not amount then return end
 
     local price = serverConfig.DealerItems.buyable[item] -- returns the price
-    if not price or price <= 0 then
-        return
-    end
+    if not price or price <= 0 then return end
+
+    local newPrice = amount * price
 
     local count = GetItemCount(source, serverConfig.blackmoney)
-    if count <= price then
+    if count <= newPrice then
         notifyPlayer(source, {
             type = 'error',
             description = locale('misc.insufficient_funds')
@@ -190,19 +189,15 @@ RegisterNetEvent('rv_blackmarket:server:buyItem', function(data)
 end)
 
 RegisterNetEvent('rv_blackmarket:server:sellItem', function (item)
-    if not isNearDealer(source) then
-        return
-    end
+    if not isNearDealer(source) then return end
+    if not item then return end
 
-    if not item then
-        return
-    end
+    local amount = lib.callback.await('rv_blackmarket:client:choosedAmount', source, locale('misc.sale'))
 
-    local amount, err = lib.callback.await('rv_blackmarket:client:choosedSellAmount', source)
+    if not amount then return end
+
     local itemName = item[1]
     local count = GetItemCount(source, itemName)
-
-    assert(amount > 0, err)
 
     if count < amount then
         notifyPlayer(source, {
@@ -212,10 +207,7 @@ RegisterNetEvent('rv_blackmarket:server:sellItem', function (item)
         return
     end
 
-    if not SellCooldowns[source] then
-        SellCooldowns[source] = 0
-    end
-
+    if not SellCooldowns[source] then SellCooldowns[source] = 0 end
     if GetGameTimer() - SellCooldowns[source] >= serverConfig.Cooldowns.sell then
         SellCooldowns[source] = GetGameTimer()
 
@@ -233,7 +225,7 @@ RegisterNetEvent('rv_blackmarket:server:sellItem', function (item)
         })
 
         local cooldown = serverConfig.Cooldowns.sell or 3000
-    
+
         SetTimeout(cooldown, function()
             SellCooldowns[source] = nil
         end)

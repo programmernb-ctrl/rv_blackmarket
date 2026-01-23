@@ -207,4 +207,21 @@ lib.callback.register('rv_blackmarket:client:isNearDealer', function()
     end
 end)
 
+lib.callback.register('rv_blackmarket:client:choosedAmount', function(title)
+    local input = lib.inputDialog(title, {
+        {
+            type = 'slider',
+            label = locale('misc.amount'),
+            icon = 'fa-solid fa-hashtag',
+            required = true,
+            min = 1,
+            max = 25,
+            default = 1
+        }
+    })
+
+    local amount = input and input[1] --[[@as number]] or nil
+    return amount
+end)
+
 onPlayerLoad()
